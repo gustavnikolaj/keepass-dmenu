@@ -68,6 +68,7 @@ async.waterfall([
 
         callback(null, flattenedList);
     },
+    // Present choice for entries
     function (entries, callback) {
         var dmenu = require('child_process').spawn('dmenu', ['-i']);
 
@@ -106,8 +107,49 @@ async.waterfall([
         dmenu.stdin.write(titles);
         dmenu.stdin.end();
     },
+    // Present choice for entries
     function (matched, callback) {
-        console.log('copy password to clipboard', matched);
+        if (!argv.label) {
+            var dmenu = require('child_process').spawn('dmenu', ['-i']);
+
+            var labels = Object.keys(matched).join('\n');
+
+            var choice = null;
+            dmenu.stdout.on('data', function (data) {
+                choice = data;
+            });
+            dmenu.on('close', function (code) {
+                if (code !== 0) {
+                    return callback(new Error('dmenu closed with a non-zero exit code'));
+                }
+                if (choice === null) {
+                    return callback(new Error('dmenu did not send any data'));
+                }
+
+                choice = choice.toString().replace(/\n$/, '');
+
+                result = matched[choice] || false;
+
+                if (result) {
+                    return callback(null, result);
+                } else {
+                    return callback(new Error('no matching results'));
+                }
+            });
+
+            dmenu.stdin.setEncoding = 'utf-8';
+            dmenu.stdin.write(labels);
+            dmenu.stdin.end();
+        } else {
+            if (matched[argv.label]) {
+                callback(null, matched[argv.label]);
+            } else {
+                return callback(new Error('no matching results'));
+            }
+        }
+    },
+    function (matched, callback) {
+        console.log('copy selected detail to clipboard', matched);
     }
 ], function (err) {
     if (err) {
