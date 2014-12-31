@@ -48,6 +48,7 @@ The following software should be installed:
  - node.js
  - npm
  - dmenu
+ - xsel
 
 ## Compatability
 
