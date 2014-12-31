@@ -64,3 +64,14 @@ if you need an extra eye on a problem feel free to open an issue.
 This module is made public under the ISC License.
 
 See the LICENSE file for additional details.
+
+### Getting it playing nice with i3
+
+I am using nvm to manage node, and that screwed me over and resulted
+in me wasting some hours getting it working properly with i3.
+
+i3 doesn't read your `$PATH` environment variable as bash does. So you
+need to source the file that sets up nvm in your bash
+environment. Usually the nvm install script will place that line in
+the end of your .bashrc file. You should source it in the .profile
+dotfile as that will be loaded by the desktop environment.
