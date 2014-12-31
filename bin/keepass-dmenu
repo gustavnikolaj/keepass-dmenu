@@ -9,39 +9,85 @@ var kpio = require('keepass.io');
 
 var Timer = require('../lib/timer');
 var parseRawDatabase = require('../lib/parseRawDatabase');
+var startReaper = require('../lib/startReaper');
 
 var databasePath = require('path').resolve(process.cwd(), argv.database);
 
 var db = new kpio.Database();
+
+var passwordCacheFile = '/tmp/keepass-dmenu.cache';
+var passwordCacheReaperPid = '/tmp/keepass-dmenu.reaper-pid';
 
 async.waterfall([
     // ask for the password
     function (callback) {
         // Prompt for password
         if (!argv.password) {
-            return require('child_process').exec('echo | dmenu -p "Password:" -nb black -nf black', function (err, stdout, stderr) {
-                if (err) {
-                    return callback(err);
-                } else if (stderr) {
-                    return callback(stderr);
-                }
-
-                var password = stdout.replace(/\n$/, '');
-                return callback(null, password);
-            });
+            if (argv['cache-password']) {
+                // If cache password option is given, check for an existing password.
+                var password;
+                async.waterfall([
+                    // read reaper pid id and kill it the reaper if it's found
+                    function (callback) {
+                        fs.readFile(passwordCacheReaperPid, function (err, data) {
+                            if (!err) {
+                                if (/^[0-9]+$/.test(data)) {
+                                    return require('child_process').exec('kill -2 ' + data, function () {
+                                        callback();
+                                    });
+                                }
+                            }
+                            callback();
+                        });
+                    },
+                    // attempt to read password file
+                    fs.readFile.bind(fs, passwordCacheFile),
+                    function (data, callback) {
+                        data = JSON.parse(data);
+                        password = new kpio.Credentials.Password('temp');
+                        password.__hashBuffer = new Buffer(data.buffer);
+                        callback();
+                    },
+                    // start a new reaper
+                    startReaper.bind(null, argv['cache-password']),
+                    function (callback) {
+                        callback(null, password);
+                    }
+                ], function (err, password) {
+                    if (err) {
+                        // found no password file, better get one
+                        return require('../lib/passwordPrompt')(function (err, password) {
+                            callback(err, password);
+                        });
+                    }
+                    return callback(null, password);
+                });
+            } else {
+                return require('../lib/passwordPrompt')(callback);
+            }
         } else {
             return callback(null, argv.password);
         }
     },
     // create the password
     function (password, callback) {
-        var pwTimer = new Timer({ start: true, report: true, name: 'Create Password' });
-        var credential = new kpio.Credentials.Password(password);
-        console.log('Generated credential', credential.__hashBuffer);
-        pwTimer.end();
-        // require('uninspected').log(credential);
-        // credential.__hashBuffer contains the generated key that can
-        // be cached if the generation of it takes too long.
+        var credential;
+        if (password instanceof kpio.Credentials.Password) {
+            credential = password;
+        } else {
+            var pwTimer = new Timer({ start: true, report: true, name: 'Create Password' });
+            credential = new kpio.Credentials.Password(password);
+            console.log('Generated credential', credential.__hashBuffer);
+            pwTimer.end();
+            if (argv['cache-password']) {
+                return fs.writeFile(passwordCacheFile, JSON.stringify({buffer: credential.__hashBuffer}), function (err) {
+                    startReaper(argv['cache-password'], function () {
+                        db.addCredential(credential);
+                        callback();
+                    });
+                });
+            }
+        }
         db.addCredential(credential);
         callback();
     },
