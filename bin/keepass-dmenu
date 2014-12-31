@@ -1,0 +1,19 @@
+#!/usr/bin/env node
+var argv = require('yargs')
+    .usage('Usage: $0 --database path/to/db.kbdx')
+    .demand(['database'])
+    .argv;
+var async = require('async');
+var fs = require('fs');
+
+
+var databasePath = require('path').resolve(process.cwd(), argv.database);
+
+async.waterfall([
+], function (err) {
+    if (err) {
+        console.log('Error: ', err);
+        process.exit(1);
+    }
+    console.log('Done!');
+});
