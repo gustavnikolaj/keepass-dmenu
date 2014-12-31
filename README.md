@@ -2,6 +2,9 @@
 
 Keepass2 client for .kdbx files based on dmenu.
 
+It is only meant for read access to the file, so you still need a full
+GUI client to do your editing and changing of password entries.
+
 ## Usage
 
 Minimal working invocation is shown below:
@@ -31,3 +34,31 @@ All command line options:
                    - notes
                   [optional]
 ```
+
+## Installation
+
+It can be installed by running the following command in your terminal:
+```
+$ npm install -g keepass-dmenu
+```
+
+## Requirements
+
+The following software should be installed:
+ - node.js
+ - npm
+ - dmenu
+
+## Compatability
+
+The implementation is only tested on Ubuntu 14.10, with i3wm. It
+should work under any window manager on any linux system as long as
+dmenu is available.
+
+If you encounter problems that is related to this code I will
+willingly accept any pull requests as long as they are reasonable. And
+if you need an extra eye on a problem feel free to open an issue.
+
+## License
+
+See the LICENSE file.
