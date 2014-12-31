@@ -148,8 +148,35 @@ async.waterfall([
             }
         }
     },
+    // Put requested property on the clipboard
     function (matched, callback) {
-        console.log('copy selected detail to clipboard', matched);
+        var xsel = require('child_process').spawn('xsel', ['-ib']);
+
+        xsel.on('close', function (code, signal) {
+            if (code !== 0) {
+                return callback(new Error('xsel closed with a non-zero exit code'));
+            }
+            console.log('put requested property on clipboard');
+            callback();
+        });
+
+        xsel.stdin.setEncoding("utf8");
+        xsel.stdin.end(matched);
+    },
+    // Clear the clipboard
+    function (callback) {
+        setTimeout(function () {
+            var xsel = require('child_process').spawn('xsel', ['-ib']);
+            xsel.on('close', function (code, signal) {
+                console.log('cleared clipboard after 5 seconds');
+                if (code !== 0) {
+                    return callback(new Error('xsel closed with a non-zero exit code'));
+                }
+                callback();
+            });
+
+            xsel.stdin.end('');
+        }, 5000);
     }
 ], function (err) {
     if (err) {
