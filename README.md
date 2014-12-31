@@ -61,4 +61,6 @@ if you need an extra eye on a problem feel free to open an issue.
 
 ## License
 
-See the LICENSE file.
+This module is made public under the ISC License.
+
+See the LICENSE file for additional details.

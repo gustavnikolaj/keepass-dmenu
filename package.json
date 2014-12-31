@@ -16,7 +16,7 @@
     "test": ""
   },
   "author": "Gustav Nikolaj <gustavnikolaj@gmail.com>",
-  "license": "MIT",
+  "license": "ISC",
   "devDependencies": {
     "mocha": "2.1.0",
     "unexpected": "5.1.1"
