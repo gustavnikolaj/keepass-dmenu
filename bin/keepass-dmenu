@@ -5,11 +5,110 @@ var argv = require('yargs')
     .argv;
 var async = require('async');
 var fs = require('fs');
+var kpio = require('keepass.io');
 
+var Timer = require('../lib/timer');
+var parseRawDatabase = require('../lib/parseRawDatabase');
 
 var databasePath = require('path').resolve(process.cwd(), argv.database);
 
+var db = new kpio.Database();
+
 async.waterfall([
+    // ask for the password
+    function (callback) {
+        // Prompt for password
+        if (!argv.password) {
+            return require('child_process').exec('echo | dmenu -p "Password:" -nb black -nf black', function (err, stdout, stderr) {
+                if (err) {
+                    return callback(err);
+                } else if (stderr) {
+                    return callback(stderr);
+                }
+
+                var password = stdout.replace(/\n$/, '');
+                return callback(null, password);
+            });
+        } else {
+            return callback(null, argv.password);
+        }
+    },
+    // create the password
+    function (password, callback) {
+        var pwTimer = new Timer({ start: true, report: true, name: 'Create Password' });
+        var credential = new kpio.Credentials.Password(password);
+        console.log('Generated credential', credential.__hashBuffer);
+        pwTimer.end();
+        // require('uninspected').log(credential);
+        // credential.__hashBuffer contains the generated key that can
+        // be cached if the generation of it takes too long.
+        db.addCredential(credential);
+        callback();
+    },
+    // load the database
+    function (callback) {
+        var loadTimer = new Timer({ start: true, report: true, name: 'Load Database File' });
+        db.loadFile(databasePath, function (err, api) {
+            loadTimer.end();
+            callback.apply(null, arguments);
+        });
+    },
+    function (api, callback) {
+        var database = api.getRaw();
+        var parseTimer = new Timer({ start: true, report: true, name: 'Parse Database' });
+        database = parseRawDatabase(database);
+        parseTimer.end();
+        // require('uninspected').log('foo', database);
+
+        var flatTimer = new Timer({ start: true, report: true, name: 'Flatten' });
+        var flattenedList = require('../lib/flattenedList')(database);
+        flatTimer.end();
+
+        // require('uninspected').log(flattenedList);
+
+        callback(null, flattenedList);
+    },
+    function (entries, callback) {
+        var dmenu = require('child_process').spawn('dmenu', ['-i']);
+
+        var titles = entries.map(function (entry) {
+            return entry.title;
+        }).join('\n');
+
+        var choice = null;
+        dmenu.stdout.on('data', function (data) {
+            choice = data;
+        });
+        dmenu.on('close', function (code) {
+            if (code !== 0) {
+                return callback(new Error('dmenu closed with a non-zero exit code'));
+            }
+            if (choice === null) {
+                return callback(new Error('dmenu did not send any data'));
+            }
+
+            choice = choice.toString().replace(/\n$/, '');
+
+            var result = entries.filter(function (entry) {
+                return entry.title === choice;
+            });
+
+            if (result.length === 1) {
+                return callback(null, result[0]);
+            } else if (result.length === 0) {
+                return callback(new Error('no matching results'));
+            } else {
+                return callback(new Error('too many matching results'));
+            }
+        });
+
+        dmenu.stdin.setEncoding = 'utf-8';
+        dmenu.stdin.write(titles);
+        dmenu.stdin.end();
+    },
+    function (matched, callback) {
+        console.log('copy password to clipboard', matched);
+    }
 ], function (err) {
     if (err) {
         console.log('Error: ', err);
