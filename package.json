@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "dmenu based keepass2 kdbx client",
   "bin": {
-    "keepass-dmenu": "lib/cli.js"
+    "keepass-dmenu": "bin/keepass-dmenu-cli.js"
   },
   "repository": {
     "type": "git",
