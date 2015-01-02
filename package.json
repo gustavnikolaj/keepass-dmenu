@@ -13,7 +13,7 @@
     "registry": "http://registry.npmjs.org/"
   },
   "scripts": {
-    "test": ""
+    "test": "mocha"
   },
   "author": "Gustav Nikolaj <gustavnikolaj@gmail.com>",
   "license": "ISC",
