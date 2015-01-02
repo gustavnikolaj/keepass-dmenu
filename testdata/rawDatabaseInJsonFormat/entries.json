@@ -1,0 +1,294 @@
+// This raw database is a default database as created by Keepass2.
+// It has only added a single Entry which results in having an object
+// on the Entry property where you would have a list if you had more
+// groups.
+// The entry is at line 170 and is an entry of the group named General.
+{
+    "KeePassFile": {
+        "Meta": {
+            "Binaries": "",
+            "Color": "",
+            "CustomData": "",
+            "DatabaseDescription": "",
+            "DatabaseDescriptionChanged": "2014-12-30T14:06:24Z",
+            "DatabaseName": "",
+            "DatabaseNameChanged": "2014-12-30T14:06:24Z",
+            "DefaultUserName": "",
+            "DefaultUserNameChanged": "2014-12-30T14:06:24Z",
+            "EntryTemplatesGroup": "AAAAAAAAAAAAAAAAAAAAAA==",
+            "EntryTemplatesGroupChanged": "2014-12-30T14:06:24Z",
+            "Generator": "KeePass",
+            "HeaderHash": "PQh3/blMSuf7zjvSsQLDAE9RzEN/UZIXkzX7e5rhLyQ=",
+            "HistoryMaxItems": "10",
+            "HistoryMaxSize": "6291456",
+            "LastSelectedGroup": "DEUPvv/gKUmR0P2dCLOSyQ==",
+            "LastTopVisibleGroup": "DEUPvv/gKUmR0P2dCLOSyQ==",
+            "MaintenanceHistoryDays": "365",
+            "MasterKeyChangeForce": "-1",
+            "MasterKeyChangeRec": "-1",
+            "MasterKeyChanged": "2014-12-30T14:06:24Z",
+            "MemoryProtection": {
+                "ProtectNotes": "False",
+                "ProtectPassword": "True",
+                "ProtectTitle": "False",
+                "ProtectURL": "False",
+                "ProtectUserName": "False"
+            },
+            "RecycleBinChanged": "2014-12-30T14:06:24Z",
+            "RecycleBinEnabled": "True",
+            "RecycleBinUUID": "AAAAAAAAAAAAAAAAAAAAAA=="
+        },
+        "Root": {
+            "DeletedObjects": "",
+            "Group": {
+                "DefaultAutoTypeSequence": "",
+                "EnableAutoType": "null",
+                "EnableSearching": "null",
+                "Entry": [
+                    {
+                        "AutoType": {
+                            "Association": {
+                                "KeystrokeSequence": "{USERNAME}{TAB}{PASSWORD}{TAB}{ENTER}",
+                                "Window": "Target Window"
+                            },
+                            "DataTransferObfuscation": "0",
+                            "Enabled": "True"
+                        },
+                        "BackgroundColor": "",
+                        "ForegroundColor": "",
+                        "History": "",
+                        "IconID": "0",
+                        "OverrideURL": "",
+                        "String": [
+                            {
+                                "Key": "Notes",
+                                "Value": "Notes"
+                            },
+                            {
+                                "Key": "Password",
+                                "Value": {
+                                    "$": {
+                                        "Protected": "True"
+                                    },
+                                    "_": "Password"
+                                }
+                            },
+                            {
+                                "Key": "Title",
+                                "Value": "Sample Entry"
+                            },
+                            {
+                                "Key": "URL",
+                                "Value": "http://keepass.info/"
+                            },
+                            {
+                                "Key": "UserName",
+                                "Value": "User Name"
+                            }
+                        ],
+                        "Tags": "",
+                        "Times": {
+                            "CreationTime": "2014-12-30T14:06:35Z",
+                            "Expires": "False",
+                            "ExpiryTime": "2014-12-30T13:19:25Z",
+                            "LastAccessTime": "2014-12-30T14:06:35Z",
+                            "LastModificationTime": "2014-12-30T14:06:35Z",
+                            "LocationChanged": "2014-12-30T14:06:35Z",
+                            "UsageCount": "0"
+                        },
+                        "UUID": "ZeEPrfkS2UKtobMI+2yApQ=="
+                    },
+                    {
+                        "AutoType": {
+                            "Association": {
+                                "KeystrokeSequence": "",
+                                "Window": "*Test Form - KeePass*"
+                            },
+                            "DataTransferObfuscation": "0",
+                            "Enabled": "True"
+                        },
+                        "BackgroundColor": "",
+                        "ForegroundColor": "",
+                        "History": "",
+                        "IconID": "0",
+                        "OverrideURL": "",
+                        "String": [
+                            {
+                                "Key": "Password",
+                                "Value": {
+                                    "$": {
+                                        "Protected": "True"
+                                    },
+                                    "_": "12345"
+                                }
+                            },
+                            {
+                                "Key": "Title",
+                                "Value": "Sample Entry #2"
+                            },
+                            {
+                                "Key": "URL",
+                                "Value": "http://keepass.info/help/kb/testform.html"
+                            },
+                            {
+                                "Key": "UserName",
+                                "Value": "Michael321"
+                            }
+                        ],
+                        "Tags": "",
+                        "Times": {
+                            "CreationTime": "2014-12-30T14:06:35Z",
+                            "Expires": "False",
+                            "ExpiryTime": "2014-12-30T13:19:25Z",
+                            "LastAccessTime": "2014-12-30T14:06:35Z",
+                            "LastModificationTime": "2014-12-30T14:06:35Z",
+                            "LocationChanged": "2014-12-30T14:06:35Z",
+                            "UsageCount": "0"
+                        },
+                        "UUID": "Xsr2QlnTCUmLaDRo19UGpQ=="
+                    }
+                ],
+                "Group": [
+                    {
+                        "DefaultAutoTypeSequence": "",
+                        "EnableAutoType": "null",
+                        "EnableSearching": "null",
+                        "IconID": "48",
+                        "IsExpanded": "True",
+                        "LastTopVisibleEntry": "AAAAAAAAAAAAAAAAAAAAAA==",
+                        "Name": "General",
+                        "Notes": "",
+                        "Times": {
+                            "CreationTime": "2014-12-30T14:06:35Z",
+                            "Expires": "False",
+                            "ExpiryTime": "2014-12-30T13:19:25Z",
+                            "LastAccessTime": "2014-12-30T14:06:35Z",
+                            "LastModificationTime": "2014-12-30T14:06:35Z",
+                            "LocationChanged": "2014-12-30T14:06:35Z",
+                            "UsageCount": "0"
+                        },
+                        "Entry": {
+                            "UUID": "XSr2QlnTCUmLaDRo19UGpq=="
+                        },
+                        "UUID": "zS9EKY13s0+XFVvn6x+kgw=="
+                    },
+                    {
+                        "DefaultAutoTypeSequence": "",
+                        "EnableAutoType": "null",
+                        "EnableSearching": "null",
+                        "IconID": "38",
+                        "IsExpanded": "True",
+                        "LastTopVisibleEntry": "AAAAAAAAAAAAAAAAAAAAAA==",
+                        "Name": "Windows",
+                        "Notes": "",
+                        "Times": {
+                            "CreationTime": "2014-12-30T14:06:35Z",
+                            "Expires": "False",
+                            "ExpiryTime": "2014-12-30T13:19:25Z",
+                            "LastAccessTime": "2014-12-30T14:06:35Z",
+                            "LastModificationTime": "2014-12-30T14:06:35Z",
+                            "LocationChanged": "2014-12-30T14:06:35Z",
+                            "UsageCount": "0"
+                        },
+                        "UUID": "3vg1S5eyBkakfm5Ts07wKA=="
+                    },
+                    {
+                        "DefaultAutoTypeSequence": "",
+                        "EnableAutoType": "null",
+                        "EnableSearching": "null",
+                        "IconID": "3",
+                        "IsExpanded": "True",
+                        "LastTopVisibleEntry": "AAAAAAAAAAAAAAAAAAAAAA==",
+                        "Name": "Network",
+                        "Notes": "",
+                        "Times": {
+                            "CreationTime": "2014-12-30T14:06:35Z",
+                            "Expires": "False",
+                            "ExpiryTime": "2014-12-30T13:19:25Z",
+                            "LastAccessTime": "2014-12-30T14:06:35Z",
+                            "LastModificationTime": "2014-12-30T14:06:35Z",
+                            "LocationChanged": "2014-12-30T14:06:35Z",
+                            "UsageCount": "0"
+                        },
+                        "UUID": "gnq6uf0hWEaMCOLi8IILTA=="
+                    },
+                    {
+                        "DefaultAutoTypeSequence": "",
+                        "EnableAutoType": "null",
+                        "EnableSearching": "null",
+                        "IconID": "1",
+                        "IsExpanded": "True",
+                        "LastTopVisibleEntry": "AAAAAAAAAAAAAAAAAAAAAA==",
+                        "Name": "Internet",
+                        "Notes": "",
+                        "Times": {
+                            "CreationTime": "2014-12-30T14:06:35Z",
+                            "Expires": "False",
+                            "ExpiryTime": "2014-12-30T13:19:25Z",
+                            "LastAccessTime": "2014-12-30T14:06:35Z",
+                            "LastModificationTime": "2014-12-30T14:06:35Z",
+                            "LocationChanged": "2014-12-30T14:06:35Z",
+                            "UsageCount": "0"
+                        },
+                        "UUID": "7VYxLRW+FEmDSdYQKC9lFQ=="
+                    },
+                    {
+                        "DefaultAutoTypeSequence": "",
+                        "EnableAutoType": "null",
+                        "EnableSearching": "null",
+                        "IconID": "19",
+                        "IsExpanded": "True",
+                        "LastTopVisibleEntry": "AAAAAAAAAAAAAAAAAAAAAA==",
+                        "Name": "eMail",
+                        "Notes": "",
+                        "Times": {
+                            "CreationTime": "2014-12-30T14:06:35Z",
+                            "Expires": "False",
+                            "ExpiryTime": "2014-12-30T13:19:25Z",
+                            "LastAccessTime": "2014-12-30T14:06:35Z",
+                            "LastModificationTime": "2014-12-30T14:06:35Z",
+                            "LocationChanged": "2014-12-30T14:06:35Z",
+                            "UsageCount": "0"
+                        },
+                        "UUID": "NUxRBFXznkmgL230gXPGHg=="
+                    },
+                    {
+                        "DefaultAutoTypeSequence": "",
+                        "EnableAutoType": "null",
+                        "EnableSearching": "null",
+                        "IconID": "37",
+                        "IsExpanded": "True",
+                        "LastTopVisibleEntry": "AAAAAAAAAAAAAAAAAAAAAA==",
+                        "Name": "Homebanking",
+                        "Notes": "",
+                        "Times": {
+                            "CreationTime": "2014-12-30T14:06:35Z",
+                            "Expires": "False",
+                            "ExpiryTime": "2014-12-30T13:19:25Z",
+                            "LastAccessTime": "2014-12-30T14:06:35Z",
+                            "LastModificationTime": "2014-12-30T14:06:35Z",
+                            "LocationChanged": "2014-12-30T14:06:35Z",
+                            "UsageCount": "0"
+                        },
+                        "UUID": "xTpWubjqUEWvf0wk6AeHqA=="
+                    }
+                ],
+                "IconID": "49",
+                "IsExpanded": "True",
+                "LastTopVisibleEntry": "ZeEPrfkS2UKtobMI+2yApQ==",
+                "Name": "Gzipped",
+                "Notes": "",
+                "Times": {
+                    "CreationTime": "2014-12-30T14:06:24Z",
+                    "Expires": "False",
+                    "ExpiryTime": "2014-12-30T13:19:25Z",
+                    "LastAccessTime": "2014-12-30T14:06:24Z",
+                    "LastModificationTime": "2014-12-30T14:06:24Z",
+                    "LocationChanged": "2014-12-30T14:06:24Z",
+                    "UsageCount": "0"
+                },
+                "UUID": "DEUPvv/gKUmR0P2dCLOSyQ=="
+            }
+        }
+    }
+}
