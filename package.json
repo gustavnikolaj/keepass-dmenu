@@ -2,8 +2,8 @@
   "name": "keepass-dmenu",
   "version": "0.0.0",
   "description": "dmenu based keepass2 kdbx client",
-  "directories": {
-    "bin": "bin"
+  "bin": {
+    "keepass-dmenu": "lib/cli.js"
   },
   "repository": {
     "type": "git",
@@ -13,11 +13,13 @@
     "registry": "http://registry.npmjs.org/"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "coverage": "NODE_ENV=development istanbul --include-all-sources cover _mocha -- --reporter dot"
   },
   "author": "Gustav Nikolaj <gustavnikolaj@gmail.com>",
   "license": "ISC",
   "devDependencies": {
+    "istanbul": "0.3.5",
     "mocha": "2.1.0",
     "unexpected": "5.1.1"
   },
