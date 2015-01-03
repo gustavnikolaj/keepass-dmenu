@@ -20,25 +20,12 @@ async.waterfall([
     require('../lib/loadDatabase')(config),
     // Present choice for entries
     function (entries, callback) {
-        var dmenu = require('child_process').spawn('dmenu', ['-i']);
-
-        var titles = entries.map(function (entry) {
+        require('../lib/dmenuFilter')(entries.map(function (entry) {
             return entry.title;
-        }).join('\n');
-
-        var choice = null;
-        dmenu.stdout.on('data', function (data) {
-            choice = data;
-        });
-        dmenu.on('close', function (code) {
-            if (code !== 0) {
-                return callback(new Error('dmenu closed with a non-zero exit code'));
+        }), function (err, choice) {
+            if (err) {
+                return callback(err);
             }
-            if (choice === null) {
-                return callback(new Error('dmenu did not send any data'));
-            }
-
-            choice = choice.toString().replace(/\n$/, '');
 
             var result = entries.filter(function (entry) {
                 return entry.title === choice;
@@ -52,50 +39,27 @@ async.waterfall([
                 return callback(new Error('too many matching results'));
             }
         });
-
-        dmenu.stdin.setEncoding = 'utf-8';
-        dmenu.stdin.write(titles);
-        dmenu.stdin.end();
     },
     // Present choice for labels
     function (matched, callback) {
-        if (!argv.label) {
-            var dmenu = require('child_process').spawn('dmenu', ['-i']);
-
-            var labels = Object.keys(matched).join('\n');
-
-            var choice = null;
-            dmenu.stdout.on('data', function (data) {
-                choice = data;
-            });
-            dmenu.on('close', function (code) {
-                if (code !== 0) {
-                    return callback(new Error('dmenu closed with a non-zero exit code'));
-                }
-                if (choice === null) {
-                    return callback(new Error('dmenu did not send any data'));
-                }
-
-                choice = choice.toString().replace(/\n$/, '');
-
-                result = matched[choice] || false;
-
-                if (result) {
-                    return callback(null, result);
-                } else {
-                    return callback(new Error('no matching results'));
-                }
-            });
-
-            dmenu.stdin.setEncoding = 'utf-8';
-            dmenu.stdin.write(labels);
-            dmenu.stdin.end();
-        } else {
+        if (config.label) {
             if (matched[argv.label]) {
                 callback(null, matched[argv.label]);
             } else {
                 return callback(new Error('no matching results'));
             }
+        } else {
+            require('../lib/dmenuFilter')(Object.keys(matched), function (err, choice) {
+                if (err) {
+                    return callback(err);
+                }
+
+                if (matched[choice]) {
+                    return callback(null, matched[choice]);
+                } else {
+                    return callback(new Error('no matching results'));
+                }
+            });
         }
     },
     // Put requested property on the clipboard
