@@ -15,60 +15,16 @@ var databasePath = require('path').resolve(process.cwd(), argv.database);
 
 var db = new kpio.Database();
 
-var passwordCacheFile = '/tmp/keepass-dmenu.cache';
-var passwordCacheReaperPid = '/tmp/keepass-dmenu.reaper-pid';
+var config = {
+    passwordCacheFile: '/tmp/keepass-dmenu.cache',
+    passwordCacheReaperPid: '/tmp/keepass-dmenu.reaper-pid'
+};
+
+var passwordCacheFile = config.passwordCacheFile;
+var passwordCacheReaperPid = config.passwordCacheReaperPid;
 
 async.waterfall([
-    // ask for the password
-    function (callback) {
-        // Prompt for password
-        if (!argv.password) {
-            if (argv['cache-password']) {
-                // If cache password option is given, check for an existing password.
-                var password;
-                async.waterfall([
-                    // read reaper pid id and kill it the reaper if it's found
-                    function (callback) {
-                        fs.readFile(passwordCacheReaperPid, function (err, data) {
-                            if (!err) {
-                                if (/^[0-9]+$/.test(data)) {
-                                    return require('child_process').exec('kill -2 ' + data, function () {
-                                        callback();
-                                    });
-                                }
-                            }
-                            callback();
-                        });
-                    },
-                    // attempt to read password file
-                    fs.readFile.bind(fs, passwordCacheFile),
-                    function (data, callback) {
-                        data = JSON.parse(data);
-                        password = new kpio.Credentials.Password('temp');
-                        password.__hashBuffer = new Buffer(data.buffer);
-                        callback();
-                    },
-                    // start a new reaper
-                    startReaper.bind(null, argv['cache-password']),
-                    function (callback) {
-                        callback(null, password);
-                    }
-                ], function (err, password) {
-                    if (err) {
-                        // found no password file, better get one
-                        return require('../lib/passwordPrompt')(function (err, password) {
-                            callback(err, password);
-                        });
-                    }
-                    return callback(null, password);
-                });
-            } else {
-                return require('../lib/passwordPrompt')(callback);
-            }
-        } else {
-            return callback(null, argv.password);
-        }
-    },
+    require('../lib/getPassword')(argv, config),
     // create the password
     function (password, callback) {
         var credential;
