@@ -24,27 +24,10 @@ var passwordCacheReaperPid = config.passwordCacheReaperPid;
 
 async.waterfall([
     require('../lib/getPassword')(argv, config),
-    // create the password
-    function (password, callback) {
-        var credential;
-        if (password instanceof kpio.Credentials.Password) {
-            credential = password;
-        } else {
-            credential = new kpio.Credentials.Password(password);
-            if (argv['cache-password']) {
-                return fs.writeFile(passwordCacheFile, JSON.stringify({buffer: credential.__hashBuffer}), function (err) {
-                    startReaper(argv['cache-password'], function () {
-                        db.addCredential(credential);
-                        callback();
-                    });
-                });
-            }
-        }
-        db.addCredential(credential);
-        callback();
-    },
+    require('../lib/createPassword')(argv, config),
     // load the database
-    function (callback) {
+    function (credential, callback) {
+        db.addCredential(credential);
         var loadTimer = new Timer({ start: true, report: true, name: 'Load Database File' });
         db.loadFile(databasePath, function (err, api) {
             loadTimer.end();
