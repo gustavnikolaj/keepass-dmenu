@@ -29,6 +29,7 @@ All command line options:
                   password should be remembered. If 0 is given or the
                   option is not given, you will be prompted for the
                   master password on every invocation.
+                  [optional]
 
 --label           Takes one argument; what property of the selected entry
                   you wish to return. You can select from the following
