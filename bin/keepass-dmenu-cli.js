@@ -4,19 +4,11 @@ var argv = require('yargs')
     .demand(['database'])
     .argv;
 var async = require('async');
-var fs = require('fs');
-var kpio = require('keepass.io');
-
-var Timer = require('../lib/timer');
-var startReaper = require('../lib/startReaper');
-
-var databasePath = require('path').resolve(process.cwd(), argv.database);
-
-var db = new kpio.Database();
 
 var config = {
     passwordCacheFile: '/tmp/keepass-dmenu.cache',
-    passwordCacheReaperPid: '/tmp/keepass-dmenu.reaper-pid'
+    passwordCacheReaperPid: '/tmp/keepass-dmenu.reaper-pid',
+    databasePath: require('path').resolve(process.cwd(), argv.database)
 };
 
 config.cachePassword = argv['cache-password'] || false;
@@ -25,22 +17,7 @@ config.password = argv.password || null;
 async.waterfall([
     require('../lib/getPassword')(config),
     require('../lib/createPassword')(config),
-    // load the database
-    function (credential, callback) {
-        db.addCredential(credential);
-        var loadTimer = new Timer({ start: true, report: true, name: 'Load Database File' });
-        db.loadFile(databasePath, function (err, api) {
-            loadTimer.end();
-            callback.apply(null, arguments);
-        });
-    },
-    function (api, callback) {
-        var data = api.getRaw();
-        data = require('../lib/parseRawDatabase')(data);
-        data = require('../lib/flattenedList')(data);
-
-        callback(null, data);
-    },
+    require('../lib/loadDatabase')(config),
     // Present choice for entries
     function (entries, callback) {
         var dmenu = require('child_process').spawn('dmenu', ['-i']);
