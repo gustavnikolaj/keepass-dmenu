@@ -19,12 +19,12 @@ var config = {
     passwordCacheReaperPid: '/tmp/keepass-dmenu.reaper-pid'
 };
 
-var passwordCacheFile = config.passwordCacheFile;
-var passwordCacheReaperPid = config.passwordCacheReaperPid;
+config.cachePassword = argv['cache-password'] || false;
+config.password = argv.password || null;
 
 async.waterfall([
-    require('../lib/getPassword')(argv, config),
-    require('../lib/createPassword')(argv, config),
+    require('../lib/getPassword')(config),
+    require('../lib/createPassword')(config),
     // load the database
     function (credential, callback) {
         db.addCredential(credential);
