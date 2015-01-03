@@ -57,7 +57,7 @@ async.waterfall([
         dmenu.stdin.write(titles);
         dmenu.stdin.end();
     },
-    // Present choice for entries
+    // Present choice for labels
     function (matched, callback) {
         if (!argv.label) {
             var dmenu = require('child_process').spawn('dmenu', ['-i']);
