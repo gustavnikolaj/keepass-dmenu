@@ -30,10 +30,7 @@ async.waterfall([
         if (password instanceof kpio.Credentials.Password) {
             credential = password;
         } else {
-            var pwTimer = new Timer({ start: true, report: true, name: 'Create Password' });
             credential = new kpio.Credentials.Password(password);
-            console.log('Generated credential', credential.__hashBuffer);
-            pwTimer.end();
             if (argv['cache-password']) {
                 return fs.writeFile(passwordCacheFile, JSON.stringify({buffer: credential.__hashBuffer}), function (err) {
                     startReaper(argv['cache-password'], function () {
