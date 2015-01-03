@@ -8,7 +8,6 @@ var fs = require('fs');
 var kpio = require('keepass.io');
 
 var Timer = require('../lib/timer');
-var parseRawDatabase = require('../lib/parseRawDatabase');
 var startReaper = require('../lib/startReaper');
 
 var databasePath = require('path').resolve(process.cwd(), argv.database);
@@ -56,19 +55,11 @@ async.waterfall([
         });
     },
     function (api, callback) {
-        var database = api.getRaw();
-        var parseTimer = new Timer({ start: true, report: true, name: 'Parse Database' });
-        database = parseRawDatabase(database);
-        parseTimer.end();
-        // require('uninspected').log('foo', database);
+        var data = api.getRaw();
+        data = require('../lib/parseRawDatabase')(data);
+        data = require('../lib/flattenedList')(data);
 
-        var flatTimer = new Timer({ start: true, report: true, name: 'Flatten' });
-        var flattenedList = require('../lib/flattenedList')(database);
-        flatTimer.end();
-
-        // require('uninspected').log(flattenedList);
-
-        callback(null, flattenedList);
+        callback(null, data);
     },
     // Present choice for entries
     function (entries, callback) {
