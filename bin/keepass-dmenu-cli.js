@@ -10,6 +10,7 @@ var config = {
     passwordCacheReaperPid: '/tmp/keepass-dmenu.reaper-pid',
     databasePath: require('path').resolve(process.cwd(), argv.database),
     cachePassword: argv['cache-password'] || false,
+    label: argv.label || false,
     password: argv.password || null,
     clearClipboard: 10000
 };
