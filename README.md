@@ -75,7 +75,7 @@ if you need an extra eye on a problem feel free to open an issue.
 
 This module is made public under the ISC License.
 
-See the LICENSE file for additional details.
+See the [LICENSE](LICENSE) file for additional details.
 
 ### Getting it playing nice with i3
 
