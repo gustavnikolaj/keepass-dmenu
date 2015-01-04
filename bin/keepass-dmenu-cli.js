@@ -64,32 +64,26 @@ async.waterfall([
     },
     // Put requested property on the clipboard
     function (matched, callback) {
-        var xsel = require('child_process').spawn('xsel', ['-ib']);
-
-        xsel.on('close', function (code, signal) {
-            if (code !== 0) {
-                return callback(new Error('xsel closed with a non-zero exit code'));
+        require('../lib/copyToClipboard')(matched, function (err) {
+            if (err) {
+                return callback(err);
             }
+
             console.log('put requested property on clipboard');
             callback();
         });
-
-        xsel.stdin.setEncoding("utf8");
-        xsel.stdin.end(matched);
     },
     // Clear the clipboard
     function (callback) {
         setTimeout(function () {
-            var xsel = require('child_process').spawn('xsel', ['-ib']);
-            xsel.on('close', function (code, signal) {
-                console.log('cleared clipboard after 5 seconds');
-                if (code !== 0) {
-                    return callback(new Error('xsel closed with a non-zero exit code'));
+            require('../lib/copyToClipboard')('', function (err) {
+                if (err) {
+                    return callback(err);
                 }
+
+                console.log('cleared clipboard after 5 seconds');
                 callback();
             });
-
-            xsel.stdin.end('');
         }, 5000);
     }
 ], function (err) {
