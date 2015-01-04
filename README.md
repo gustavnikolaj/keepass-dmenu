@@ -39,6 +39,11 @@ All command line options:
                    - url
                    - notes
                   [optional]
+
+--clear-clipboard Takes one argument; how many seconds before emptying the
+                  clipboard. If 0 is given, the clipboard will not be
+                  cleared. Default value i 10 seconds.
+
 ```
 
 ## Installation

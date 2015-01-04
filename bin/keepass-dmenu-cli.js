@@ -10,8 +10,20 @@ var config = {
     passwordCacheReaperPid: '/tmp/keepass-dmenu.reaper-pid',
     databasePath: require('path').resolve(process.cwd(), argv.database),
     cachePassword: argv['cache-password'] || false,
-    password: argv.password || null
+    password: argv.password || null,
+    clearClipboard: 10000
 };
+
+if (typeof argv['clear-clipboard'] === 'number') {
+    if (argv['clear-clipboard'] === 0) {
+        config.clearClipboard = false;
+    } else {
+        config.clearClipboard = argv['clear-clipboard'] * 1000; // convert seconds to ms
+    }
+} else if (argv['clear-clipboard'] !== undefined) {
+    console.log('Invalid value for flag --clear-clipboard, must be a number.');
+    process.exit(1);
+}
 
 async.waterfall([
     require('../lib/getPassword')(config),
@@ -74,16 +86,20 @@ async.waterfall([
     },
     // Clear the clipboard
     function (callback) {
-        setTimeout(function () {
-            require('../lib/copyToClipboard')('', function (err) {
-                if (err) {
-                    return callback(err);
-                }
+        if (config.clearClipboard) {
+            setTimeout(function () {
+                require('../lib/copyToClipboard')('', function (err) {
+                    if (err) {
+                        return callback(err);
+                    }
 
-                console.log('cleared clipboard after 5 seconds');
-                callback();
-            });
-        }, 5000);
+                    console.log('cleared clipboard after 5 seconds');
+                    callback();
+                });
+            }, config.clearClipboard);
+        } else {
+            callback();
+        }
     }
 ], function (err) {
     if (err) {
