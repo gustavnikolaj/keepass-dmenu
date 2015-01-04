@@ -8,11 +8,10 @@ var async = require('async');
 var config = {
     passwordCacheFile: '/tmp/keepass-dmenu.cache',
     passwordCacheReaperPid: '/tmp/keepass-dmenu.reaper-pid',
-    databasePath: require('path').resolve(process.cwd(), argv.database)
+    databasePath: require('path').resolve(process.cwd(), argv.database),
+    cachePassword: argv['cache-password'] || false,
+    password: argv.password || null
 };
-
-config.cachePassword = argv['cache-password'] || false;
-config.password = argv.password || null;
 
 async.waterfall([
     require('../lib/getPassword')(config),
