@@ -4,27 +4,7 @@ var argv = require('yargs')
     .demand(['database'])
     .argv;
 var async = require('async');
-
-var config = {
-    passwordCacheFile: '/tmp/keepass-dmenu.cache',
-    passwordCacheReaperPid: '/tmp/keepass-dmenu.reaper-pid',
-    databasePath: require('path').resolve(process.cwd(), argv.database),
-    cachePassword: argv['cache-password'] || false,
-    label: argv.label || false,
-    password: argv.password || null,
-    clearClipboard: 10000
-};
-
-if (typeof argv['clear-clipboard'] === 'number') {
-    if (argv['clear-clipboard'] === 0) {
-        config.clearClipboard = false;
-    } else {
-        config.clearClipboard = argv['clear-clipboard'] * 1000; // convert seconds to ms
-    }
-} else if (argv['clear-clipboard'] !== undefined) {
-    console.log('Invalid value for flag --clear-clipboard, must be a number.');
-    process.exit(1);
-}
+var config = require('../lib/config')(argv);
 
 async.waterfall([
     require('../lib/getPassword')(config),
