@@ -84,8 +84,7 @@ async.waterfall([
     }
 ], function (err) {
     if (err) {
-        console.log('Error: ', err);
-        process.exit(1);
+        require('../lib/exitWithError')('Error: ', err);
     }
     console.log('Done!');
 });
