@@ -8,6 +8,15 @@ var config = require('../lib/config')(argv);
 
 var defaultLabels = ['password', 'username', 'url', 'notes'];
 
+function formatEntry(entry) {
+    if (entry.meta.unique) {
+        return entry.title;
+    }
+
+    var path = entry.meta.path;
+    return entry.title + (path ? ' (' + path + ')' : '');
+}
+
 async.waterfall([
     require('../lib/getPassword')(config),
     require('../lib/createPassword')(config),
@@ -15,14 +24,14 @@ async.waterfall([
     // Present choice for entries
     function (entries, callback) {
         require('../lib/dmenuFilter')(entries.map(function (entry) {
-            return entry.toString();
+            return formatEntry(entry);
         }), function (err, choice) {
             if (err) {
                 return callback(err);
             }
 
             var result = entries.filter(function (entry) {
-                return entry.toString() === choice;
+                return formatEntry(entry) === choice;
             });
 
             if (result.length === 1) {
@@ -46,7 +55,7 @@ async.waterfall([
             var labels = defaultLabels.filter(function (label) {
                 return label in matched;
             }).concat(Object.keys(matched).filter(function (label) {
-                return defaultLabels.indexOf(label) === -1;
+                return label !== 'meta' && defaultLabels.indexOf(label) === -1;
             }).sort());
 
             require('../lib/dmenuFilter')(labels, function (err, choice) {
