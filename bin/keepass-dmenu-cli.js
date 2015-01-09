@@ -15,14 +15,14 @@ async.waterfall([
     // Present choice for entries
     function (entries, callback) {
         require('../lib/dmenuFilter')(entries.map(function (entry) {
-            return entry.title;
+            return entry.path;
         }), function (err, choice) {
             if (err) {
                 return callback(err);
             }
 
             var result = entries.filter(function (entry) {
-                return entry.title === choice;
+                return entry.path === choice;
             });
 
             if (result.length === 1) {
