@@ -6,6 +6,8 @@ var argv = require('yargs')
 var async = require('async');
 var config = require('../lib/config')(argv);
 
+var defaultLabels = ['password', 'username', 'url', 'notes'];
+
 async.waterfall([
     require('../lib/getPassword')(config),
     require('../lib/createPassword')(config),
@@ -41,7 +43,13 @@ async.waterfall([
                 return callback(new Error('no matching results'));
             }
         } else {
-            require('../lib/dmenuFilter')(Object.keys(matched), function (err, choice) {
+            var labels = defaultLabels.filter(function (label) {
+                return label in matched;
+            }).concat(Object.keys(matched).filter(function (label) {
+                return defaultLabels.indexOf(label) === -1;
+            }).sort());
+
+            require('../lib/dmenuFilter')(labels, function (err, choice) {
                 if (err) {
                     return callback(err);
                 }
