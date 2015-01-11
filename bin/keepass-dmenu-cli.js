@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 var argv = require('yargs')
-    .usage('Usage: $0 --database path/to/db.kbdx')
+    .usage('Usage: $0 --database path/to/db.kdbx')
     .demand(['database'])
     .argv;
 var async = require('async');
