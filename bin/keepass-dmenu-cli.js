@@ -101,6 +101,10 @@ async.waterfall([
     }
 ], function (err) {
     if (err) {
+        if (config.cachePassword) {
+            require('../lib/handleBadDecrypt')(config, err);
+            console.log('Deleted cached password.');
+        }
         require('../lib/exitWithError')('Error: ', err);
     }
     console.log('Done!');
