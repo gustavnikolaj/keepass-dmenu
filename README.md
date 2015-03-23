@@ -46,6 +46,25 @@ All command line options:
 
 ```
 
+The following styling options is propagated to dmenu. (Note the double
+dashes in front of the options - dmenu only uses one for the
+corresponding options.)
+
+```
+--fn font
+      defines the font or font set used. eg. "fixed" or
+      "Monospace-12:normal" (an xft font)
+--nb color
+      defines the normal background color.  #RGB, #RRGGBB, and X color
+      names are supported.
+--nf color
+      defines the normal foreground color.
+--sb color
+      defines the selected background color.
+--sf color
+      defines the selected foreground color.
+```
+
 ## Installation
 
 It can be installed by running the following command in your terminal:

@@ -23,7 +23,7 @@ async.waterfall([
     require('../lib/loadDatabase')(config),
     // Present choice for entries
     function (entries, callback) {
-        require('../lib/dmenuFilter')(entries.map(function (entry) {
+        require('../lib/dmenuFilter')(config, entries.map(function (entry) {
             return formatEntry(entry);
         }), function (err, choice) {
             if (err) {
@@ -58,7 +58,7 @@ async.waterfall([
                 return label !== 'meta' && defaultLabels.indexOf(label) === -1;
             }).sort());
 
-            require('../lib/dmenuFilter')(labels, function (err, choice) {
+            require('../lib/dmenuFilter')(config, labels, function (err, choice) {
                 if (err) {
                     return callback(err);
                 }
