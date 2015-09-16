@@ -1,6 +1,6 @@
 {
   "name": "keepass-dmenu",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "dmenu based keepass2 kdbx client",
   "bin": {
     "keepass-dmenu": "bin/keepass-dmenu-cli.js"
