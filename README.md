@@ -1,3 +1,12 @@
+# :no_entry: DEPRECATED
+
+I am no longer using or maintaining this application. I would not recommend using
+it unless you want to pick up maintenance yourself. If you want to, please get in
+touch - you can find my contact information on my GitHub profile. I would be happy
+to hand this repo over to you.
+
+The reason is that I'm no longer using a window manager that works well with dmenu.
+
 # keepass-dmenu
 
 Keepass2 client for .kdbx files based on dmenu.
