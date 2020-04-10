@@ -34,6 +34,10 @@ All command line options:
                   it will prompt for the password using dmenu.
                   [optional]
 
+--keyfile         Takes the path to the key file, relative from
+                  your current working directory or as an absolute path.
+                  [optional]
+
 --cache-password  Takes one argument; the number of seconds in which the
                   password should be remembered. If 0 is given or the
                   option is not given, you will be prompted for the
